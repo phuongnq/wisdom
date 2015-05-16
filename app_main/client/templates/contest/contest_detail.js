@@ -63,7 +63,7 @@ Template.contestDetail.helpers({
   },
   answers: function(){
     var current = QuestionReactive.get() ? QuestionReactive.get().current : null;
-    if (!current) return null;
+    if (current == null) return null;
     var answers = thisContest.questions[current].answers;
     for (var i in answers){
       answers[i].ansClass = 'btn-default';
@@ -113,6 +113,7 @@ function createChart(AllEntries){
       .duration(350)
       .showYAxis(false)
       //.showXAxis(false)
+      .margin({left: 10})
       ;
 
 	  updateChart(AllEntries);
