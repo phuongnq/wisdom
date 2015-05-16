@@ -11,8 +11,10 @@ var updateProgressBar = function() {
   var passTime = (new Date()).getTime() - startTime;
   var percent = (passTime / (ContestReactive.get().duration * 60 * 1000)) * 100;
   percent = percent.toFixed(2);
-  if (percent >= 100) return;
-
+  if (percent > 100) {
+    completeEntry(MyEntry);
+    return;
+  }
   var el = $('.progress-bar');
   el.css('width', percent + '%' );
   el.text(percent + '%');
@@ -215,6 +217,7 @@ function answerQ(qnumber, ansCode){
   }
 
   MyEntry.answers[qnumber] = ansCode;
+  MyEntry.status = 'inProgress';
 
   nextQuestion();
 }
@@ -246,4 +249,9 @@ function restoreAnswer(MyEntry){
     }
   }
   jumpQuestion(parseInt(lastnum) + 1);
+}
+
+function completeEntry(MyEntry){
+  if (!MyEntry) return;
+  Entries.update({_id: MyEntry._id}, {status: 'complete'});
 }
