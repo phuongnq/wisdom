@@ -70,7 +70,10 @@ Template.contestDetail.helpers({
   },
   questionContent: function(){
     var ret = QuestionReactive.get() ? QuestionReactive.get().content : null;
-    Meteor.setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,ret]);}, 500);
+    if (typeof MathJax !== 'undefined') {
+      $('div.question').html('');
+      Meteor.setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,ret]);}, 500);
+    }
     return ret;
   },
   questionListButtons: function() {
@@ -111,7 +114,6 @@ Template.contestDetail.events({
   },
   'click .question-btn': function(e) {
     e.preventDefault();
-    $('div.question').html('');
     var qid = $(e.target).closest('.question-btn').attr('question-id');
     jumpQuestion(qid);
   },
