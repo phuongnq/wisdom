@@ -25,6 +25,6 @@ Template.mathContestsList.events({
   },
   'click .contest-cell': function(e) {
     var contestId = $(e.target).closest('.contest-cell').attr('contest-id');
-    Router.go('/contest/detail/' + contestId);
+    Router.go('/contest/upcoming/' + contestId);
   }
 });
