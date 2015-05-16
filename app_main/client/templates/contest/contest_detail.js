@@ -92,11 +92,12 @@ Template.contestDetail.helpers({
   },
   answers: function(){
     var current = QuestionReactive.get() ? QuestionReactive.get().current : null;
-    if (current == null) return null;
+    if (!current || !thisContest) return null;
+
     var answers = thisContest.questions[current].answers;
     for (var i in answers){
       answers[i].ansClass = 'btn-default';
-      if (MyEntry && MyEntry.answers[current] && answers[i].code == MyEntry.answers[current]){
+      if (MyEntry && MyEntry.answers && MyEntry.answers[current] && answers[i].code == MyEntry.answers[current]){
         if (MyEntry.answers[current] == thisContest.questions[current].correct_answer){
           answers[i].ansClass = 'btn-success';
         } else {
