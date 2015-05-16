@@ -33,32 +33,41 @@
   }],
   correct_answer: 'a'
 }];*/
-var Questions;
-var contestReactive = new ReactiveVar(null);
-var QuestionReactive = new ReactiveVar(null);
+var thisContest;
+var ContestReactive = new ReactiveVar();
+var QuestionReactive = new ReactiveVar();
+var chart = null;
 
 Template.contestDetail.created = function() {
   var contestId = this.data.contestId;
-  console.log(contestId);
-  var contest = Contests.findOne({_id: contestId});
-  contestReactive.set(contest);
-  if (contest) {
-    Questions = contest.questions;
+  thisContest = Contests.findOne({_id: contestId});
+  if (thisContest) {
+    ContestReactive.set(thisContest);
   }
-};
+
+  Tracker.autorun(function() {
+    //console.log('There are ' + Posts.find().count() + ' posts');
+    var AllEntries = Entries.find({contest_id: contestId}).fetch();
+    if (!chart) {
+      createChart(AllEntries);
+    }
+    else {
+      updateChart(AllEntries);
+    }
+  });
+}
 
 Template.contestDetail.rendered = function() {
   console.log('rendered');
   jumpQuestion(1);
-  createChart();
-};
+}
 
 Template.contestDetail.helpers({
   contest: function() {
-    return contestReactive.get();
+    return ContestReactive.get();
   },
   contestName: function() {
-    return contestReactive.get() ? contestReactive.get().name : 'Contest Details';
+    return ContestReactive.get() ? ContestReactive.get().name : 'Contest Details';
   },
   errorMessage: function(field) {
     return Session.get('postSubmitErrors')[field];
@@ -70,14 +79,18 @@ Template.contestDetail.helpers({
     return QuestionReactive.get() ? QuestionReactive.get().content : null;
   },
   questionListButtons: function() {
-    if (!Questions) return null;
-
-    var qnum = Questions.length;
+    if (!thisContest) return null;
+    var qnum = thisContest.questions.length;
     var listbuttons = [];
     for (var i = 0; i < qnum; i ++){
       listbuttons.push(i);
     }
     return listbuttons;
+  },
+  answers: function(){
+    var current = QuestionReactive.get() ? QuestionReactive.get().current : null;
+    if (!current) return null;
+    return thisContest.questions[current].answers;
   }
 });
 
@@ -100,9 +113,9 @@ Template.contestDetail.events({
 /**
  *
  */
-function createChart(){
+function createChart(AllEntries){
 	nv.addGraph(function() {
-	  var chart = nv.models.discreteBarChart()
+	  chart = nv.models.discreteBarChart()
 	      .x(function(d) { return d.label })    //Specify the data accessors.
 	      .y(function(d) { return d.value })
 	      .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
@@ -113,68 +126,49 @@ function createChart(){
 	      .showXAxis(true)
 	      ;
 
-	  d3.select('#chart svg#c1')
-	      .datum(exampleData())
-	      .call(chart);
+	  updateChart(AllEntries);
 
-	  d3.select('#chart svg#c2')
-	      .datum(exampleData())
-	      .call(chart);
+	  /*d3.select('#chart svg#c2')
+	      .datum(chartData())
+	      .call(chart);*/
 
 	  nv.utils.windowResize(chart.update);
 
 	  return chart;
 	});
 }
+
+function updateChart(AllEntries){
+  if (!chart) return;
+  console.log('update chart');
+  d3.select('#chart svg#c1')
+      .datum(chartData(AllEntries))
+      .call(chart);
+}
+
 //Each bar represents a single discrete quantity.
-function exampleData() {
- return  [
+function chartData(AllEntries) {
+  var values = [];
+  for (var i = 0; i < AllEntries.length; i ++){
+    var entry = AllEntries[i];
+    values.push({
+      label: entry.user_first_name,
+      value: entry.score
+    });
+  }
+  return  [
     {
       key: "Cumulative Return",
-      values: [
-        {
-          "label" : "A" ,
-          "value" : -29.765957771107
-        } ,
-        {
-          "label" : "B" ,
-          "value" : 0
-        } ,
-        {
-          "label" : "C" ,
-          "value" : 32.807804682612
-        } ,
-        {
-          "label" : "D" ,
-          "value" : 196.45946739256
-        } ,
-        {
-          "label" : "E" ,
-          "value" : 0.19434030906893
-        } ,
-        {
-          "label" : "F" ,
-          "value" : -98.079782601442
-        } ,
-        {
-          "label" : "G" ,
-          "value" : -13.925743130903
-        } ,
-        {
-          "label" : "H" ,
-          "value" : -5.1387322875705
-        }
-      ]
+      values: values
     }
   ]
 
 }
 
 function jumpQuestion(number){
-  if (!Questions) return;
-1
+  if (!thisContest) return;
   QuestionReactive.set({
     'current': number,
-    'content': Questions[number].text + number
+    'content': thisContest.questions[number].text + number
   })
 }
