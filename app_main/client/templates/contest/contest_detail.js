@@ -207,7 +207,7 @@ function answerQ(qnumber, ansCode){
   if (!MyEntry) return;
   if (MyEntry.answers[qnumber]) return;
   if (thisContest.questions[qnumber].correct_answer == ansCode){
-    MyEntry.score ++;
+    MyEntry.score += thisContest.questions[qnumber].reward || 1;
     //mark right
     markRight(qnumber);
   }
@@ -215,6 +215,8 @@ function answerQ(qnumber, ansCode){
     //mark wrong
     markWrong(qnumber);
   }
+
+  MyEntry.score -= thisContest.questions[qnumber].cost || 0;
 
   MyEntry.answers[qnumber] = ansCode;
   MyEntry.status = 'inProgress';
