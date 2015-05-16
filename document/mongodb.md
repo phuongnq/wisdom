@@ -1,7 +1,7 @@
 # MongoDB collections
 
 ## users
-
+```
 "_id": Meteor default id
 "point": Integer
 "fb_id": facebook id <currentUser.services.facebook.id>
@@ -11,3 +11,4 @@
 "link": <currentUser.services.facebook.link>
 "gender": <currentUser.services.facebook.gender>
 "locale": <currentUser.services.facebook.locale>
+```
