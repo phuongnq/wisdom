@@ -1,9 +1,12 @@
 <template name="userLogin">
-  {{#if currentUser}}
-    {{currentUser.services.facebook.name}} -
-    {{currentUser.services.facebook.gender}}
-    <button id="logout">Logout</button>
-  {{else}}
+  <div id="{{active_route}}-wrapper">
+    <div class="header">
+      <div class="logo">
+        <img src="/images/logo.png" />
+        <span class="logo-text">Interactive School</span>
+        <div class="version">hackademics</div>
+      </div>
+    </div>
     <button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
-  {{/if}}
+  </div>
 </template>
