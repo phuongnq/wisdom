@@ -8,7 +8,8 @@ Router.route('/contest/detail/:_contestId', {
   },
   waitOn: function() {
     return [
-      Subs.subscribe('contests')
+      Subs.subscribe('contests'),
+      Subs.subscribe('entries')
     ];
   }
 });

@@ -15,6 +15,9 @@ var updateProgressBar = function() {
     completeEntry(MyEntry);
     return;
   }
+  if (percent < 0) {
+    percent = 0;
+  }
   var el = $('.progress-bar');
   el.css('width', percent + '%' );
   el.text(percent + '%');
@@ -27,27 +30,29 @@ Template.contestDetail.created = function() {
     ContestReactive.set(thisContest);
   }
 
+  MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
+  if (!MyEntry) {
+    MyEntry = Entries.insert({
+      "contest_id": contestId,
+      "user_id": Meteor.userId(),
+      "user_first_name": Meteor.user().services.facebook.first_name,
+      "score": 0,
+      "question": 0,
+      "rank": 1,
+      "winning": 1,
+      "answers": []
+    });
+  }
+
   Tracker.autorun(function() {
     //console.log('There are ' + Posts.find().count() + ' posts');
     var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
-    MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() }) ||
-      Entries.insert({
-        "contest_id": contestId,
-        "user_id": Meteor.userId(),
-        "user_first_name": Meteor.user().services.facebook.first_name,
-        "score": 0,
-        "question": 0,
-        "rank": 1,
-        "winning": 1,
-        "answers": []
-      });
     if (!chart) {
       createChart(AllEntries);
     }
     else {
       updateChart(AllEntries);
     }
-
   });
 }
 
@@ -72,7 +77,7 @@ Template.contestDetail.helpers({
     var ret = QuestionReactive.get() ? QuestionReactive.get().content : null;
     if (typeof MathJax !== 'undefined') {
       $('div.question').html('');
-      Meteor.setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,ret]);}, 500);
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub,ret]);
     }
     return ret;
   },
@@ -156,9 +161,8 @@ function createChart(AllEntries){
 	});
 }
 
-function updateChart(AllEntries){
+function updateChart(AllEntries) {
   if (!chart) return;
-  console.log('update chart');
   d3.select('#chart svg#c1')
       .datum(chartData(AllEntries))
       .call(chart);
@@ -182,14 +186,14 @@ function chartData(AllEntries) {
   ]
 }
 
-function jumpQuestion(number){
+function jumpQuestion(number) {
   if (!thisContest) return;
   if (number < 0) number = 0;
   else if (number >= thisContest.questions.length) number = thisContest.questions.length - 1;
   QuestionReactive.set({
     'current': number,
     'content': thisContest.questions[number] ? thisContest.questions[number].text : 'Done'
-  })
+  });
   if (MyEntry){
     MyEntry.question = number;
     //save
@@ -200,12 +204,12 @@ function jumpQuestion(number){
   $('.question-btn-' + number).addClass('btn-currentQ');
 }
 
-function nextQuestion(){
+function nextQuestion() {
   var number = parseInt(getCurrentQuestion()) + 1;
   jumpQuestion(number);
 }
 
-function answerQ(qnumber, ansCode){
+function answerQ(qnumber, ansCode) {
   if (!MyEntry) return;
   if (MyEntry.answers[qnumber]) return;
   if (thisContest.questions[qnumber].correct_answer == ansCode){
@@ -226,11 +230,11 @@ function answerQ(qnumber, ansCode){
   nextQuestion();
 }
 
-function getCurrentQuestion(){
+function getCurrentQuestion() {
   return QuestionReactive.get().current;
 }
 
-function markRight(qnumber){
+function markRight(qnumber) {
   $('.question-btn-' + qnumber).removeClass('btn-default btn-danger').addClass('btn-success');
 }
 
@@ -238,7 +242,7 @@ function markWrong(qnumber){
   $('.question-btn-' + qnumber).removeClass('btn-default btn-success').addClass('btn-danger');
 }
 
-function restoreAnswer(MyEntry){
+function restoreAnswer(MyEntry) {
   if (!thisContest || !MyEntry || !MyEntry.answers) return;
   var answers = MyEntry.answers;
   var lastnum = -1;
@@ -255,7 +259,7 @@ function restoreAnswer(MyEntry){
   jumpQuestion(parseInt(lastnum) + 1);
 }
 
-function completeEntry(MyEntry){
+function completeEntry(MyEntry) {
   if (!MyEntry) return;
   Entries.update({_id: MyEntry._id}, {status: 'complete'});
 }
