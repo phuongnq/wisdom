@@ -3,6 +3,20 @@ var ContestReactive = new ReactiveVar();
 var QuestionReactive = new ReactiveVar();
 var chart = null;
 var MyEntry;
+var interval;
+
+var updateProgressBar = function() {
+  if (!ContestReactive.get()) return;
+  var startTime = ContestReactive.get().start_at.getTime();
+  var passTime = (new Date()).getTime() - startTime;
+  var percent = (passTime / (ContestReactive.get().duration * 60 * 1000)) * 100;
+  percent = percent.toFixed(2);
+  if (percent >= 100) return;
+
+  var el = $('.progress-bar');
+  el.css('width', percent + '%' );
+  el.text(percent + '%');
+};
 
 Template.contestDetail.created = function() {
   var contestId = this.data.contestId;
@@ -14,7 +28,7 @@ Template.contestDetail.created = function() {
   Tracker.autorun(function() {
     //console.log('There are ' + Posts.find().count() + ' posts');
     var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
-    MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() }) || 
+    MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() }) ||
       Entries.insert({
         "contest_id": contestId,
         "user_id": Meteor.userId(),
@@ -36,11 +50,14 @@ Template.contestDetail.created = function() {
 }
 
 Template.contestDetail.rendered = function() {
-  console.log('rendered');
   //restore current result
   restoreAnswer(MyEntry);
   //jumpQuestion(1);
-}
+
+  interval = Meteor.setInterval(function() {
+    updateProgressBar();
+  }, 1000);
+};
 
 Template.contestDetail.helpers({
   contest: function() {
@@ -78,6 +95,10 @@ Template.contestDetail.helpers({
     return thisContest.questions[current].answers;
   }
 });
+
+Template.contestDetail.destroyed = function() {
+  Meteor.clearInterval(interval);
+};
 
 Template.contestDetail.events({
   'click .upvote': function(e) {
@@ -160,7 +181,7 @@ function jumpQuestion(number){
   else if (number >= thisContest.questions.length) number = thisContest.questions.length - 1;
   QuestionReactive.set({
     'current': number,
-    'content': thisContest.questions[number] ? thisContest.questions[number].text : 'Done' 
+    'content': thisContest.questions[number] ? thisContest.questions[number].text : 'Done'
   })
   if (MyEntry){
     MyEntry.question = number;
