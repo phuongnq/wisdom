@@ -45,8 +45,9 @@ Template.contestDetail.created = function() {
   }
 
   Tracker.autorun(function() {
-    //console.log('There are ' + Posts.find().count() + ' posts');
     var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
+    MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
+
     if (!chart) {
       createChart(AllEntries);
     }
@@ -92,7 +93,8 @@ Template.contestDetail.helpers({
   },
   answers: function(){
     var current = QuestionReactive.get() ? QuestionReactive.get().current : null;
-    if (!current || !thisContest) return null;
+
+    if (current == null || !thisContest) return null;
 
     var answers = thisContest.questions[current].answers;
     for (var i in answers){
@@ -261,6 +263,7 @@ function restoreAnswer(MyEntry) {
 }
 
 function completeEntry(MyEntry) {
-  if (!MyEntry) return;
-  Entries.update({_id: MyEntry._id}, {status: 'complete'});
+  if (!MyEntry || MyEntry.status === 'complete') return;
+  MyEntry.status = 'complete';
+  Entries.update({_id: MyEntry._id}, MyEntry);
 }
