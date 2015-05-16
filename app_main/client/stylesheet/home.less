@@ -1,0 +1,65 @@
+@import 'base.import.less';
+
+.home-header {
+  height: 40px;
+  background-color: @color-less-grey;
+  color: @color-blue;
+  text-align: center;
+  line-height: 40px;
+}
+
+.user-info {
+  height: 80px;
+  margin-top: 5px;
+  background-color: @color-less-grey;
+  color: @color-black;
+  text-align: left;
+}
+
+#select-contest-header {
+  height: 25px;
+  line-height: 25px;
+  color: @color-white;
+  background-color: @color-black;
+  text-align: center;
+}
+
+#search-contest {
+  margin-top: 5px;
+  .col-xs-4 {
+    height:40px;
+    line-height: 40px;
+  }
+}
+
+.subjects-list {
+  width: 100%;
+  background-color: @color-white;
+  display: table;
+  .table-row {
+    display: table;
+    width:100%;
+    height: 60px;
+    padding: 5px;
+    border-bottom:2px solid @color-less-grey;
+    .table-cell {
+      display: table-cell;
+      vertical-align: middle;
+      .sport-name {
+        font-size: larger;
+        vertical-align: middle;
+        color: @color-less-black;
+      }
+    }
+    .left {
+      text-align: left;
+    }
+    .right {
+      text-align: right;
+    }
+    .glyphicon-menu-right {
+      color: @color-blue;
+      font-size: 3em;
+    }
+  }
+}

@@ -1,3 +1,94 @@
 <template name="home">
-  <button id="logout">Logout</button>
+  <div class="col-xs-12 home-header">
+    INTERACTIVE SCHOOL
+  </div>
+  <div class="col-xs-12 user-info">
+    <span>Student name: {{currentUser.services.facebook.name}}</span><br/>
+    <span>Student Point: {{point}}</span><br/>
+    <button id="logout">Logout</button>
+  </div>
+
+  <div class="col-xs-12" id="select-contest-header">Select contests</div>
+
+  <div class="contest-choose">
+    <div class="col-xs-12" id="search-contest">
+      <div class="col-xs-4">Contest ID</div>
+      <div class="col-xs-8">
+        <div class="input-group add-on search-players">
+          <input type="text" class="form-control" placeholder="Contest ID" id="input-search-contest-id">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" id="btn-submit-search"><i class="glyphicon glyphicon-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subjects-list">
+      <a href="{{pathFor 'mathContestsList'}}">
+        <div style="" class="table-row">
+            <div class="table-cell left">
+                <img src="{{imageFullPath 'math.png'}}" width="32px"/>
+                <span class="sport-name"><strong>Mathematics</strong></span>
+            </div>
+            <div class="table-cell right">
+              <span class="glyphicon glyphicon-menu-right" ></span>
+            </div>
+        </div>
+      </a>
+      <div class="table-row">
+        <div class="table-cell left">
+          <img src="{{imageFullPath 'physics.png'}}" width="32px"/>
+          <span class="sport-name"><strong>Physics</strong></span>
+        </div>
+        <div class="table-cell right">
+          <span class="glyphicon glyphicon-menu-right" ></span>
+        </div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell left">
+          <img src="{{imageFullPath 'chemistry.png'}}" width="32px"/>
+          <span class="sport-name"><strong>Chemistry</strong></span>
+        </div>
+        <div class="table-cell right">
+          <span class="glyphicon glyphicon-menu-right" ></span>
+        </div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell left">
+          <img src="{{imageFullPath 'biology.png'}}" width="32px"/>
+          <span class="sport-name"><strong>Biology</strong></span>
+        </div>
+        <div class="table-cell right">
+          <span class="glyphicon glyphicon-menu-right" ></span>
+        </div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell left">
+          <img src="{{imageFullPath 'informatics.png'}}" width="32px"/>
+          <span class="sport-name"><strong>Informatics</strong></span>
+        </div>
+        <div class="table-cell right">
+          <span class="glyphicon glyphicon-menu-right" ></span>
+        </div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell left">
+          <img src="{{imageFullPath 'geography.png'}}" width="32px"/>
+          <span class="sport-name"><strong>Geography</strong></span>
+        </div>
+        <div class="table-cell right">
+          <span class="glyphicon glyphicon-menu-right" ></span>
+        </div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell left">
+          <img src="{{imageFullPath 'english.png'}}" width="32px"/>
+          <span class="sport-name"><strong>English</strong></span>
+        </div>
+        <div class="table-cell right">
+          <span class="glyphicon glyphicon-menu-right" ></span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
