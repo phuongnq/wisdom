@@ -11,8 +11,10 @@ var updateProgressBar = function() {
   var passTime = (new Date()).getTime() - startTime;
   var percent = (passTime / (ContestReactive.get().duration * 60 * 1000)) * 100;
   percent = percent.toFixed(2);
-  if (percent >= 100) return;
-
+  if (percent > 100) {
+    completeEntry(MyEntry);
+    return;
+  }
   var el = $('.progress-bar');
   el.css('width', percent + '%' );
   el.text(percent + '%');
@@ -68,7 +70,10 @@ Template.contestDetail.helpers({
   },
   questionContent: function(){
     var ret = QuestionReactive.get() ? QuestionReactive.get().content : null;
-    Meteor.setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,ret]);}, 500);
+    if (typeof MathJax !== 'undefined') {
+      $('div.question').html('');
+      Meteor.setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,ret]);}, 500);
+    }
     return ret;
   },
   questionListButtons: function() {
@@ -109,7 +114,6 @@ Template.contestDetail.events({
   },
   'click .question-btn': function(e) {
     e.preventDefault();
-    $('div.question').html('');
     var qid = $(e.target).closest('.question-btn').attr('question-id');
     jumpQuestion(qid);
   },
@@ -205,7 +209,7 @@ function answerQ(qnumber, ansCode){
   if (!MyEntry) return;
   if (MyEntry.answers[qnumber]) return;
   if (thisContest.questions[qnumber].correct_answer == ansCode){
-    MyEntry.score ++;
+    MyEntry.score += thisContest.questions[qnumber].reward || 1;
     //mark right
     markRight(qnumber);
   }
@@ -214,7 +218,10 @@ function answerQ(qnumber, ansCode){
     markWrong(qnumber);
   }
 
+  MyEntry.score -= thisContest.questions[qnumber].cost || 0;
+
   MyEntry.answers[qnumber] = ansCode;
+  MyEntry.status = 'inProgress';
 
   nextQuestion();
 }
@@ -246,4 +253,9 @@ function restoreAnswer(MyEntry){
     }
   }
   jumpQuestion(parseInt(lastnum) + 1);
+}
+
+function completeEntry(MyEntry){
+  if (!MyEntry) return;
+  Entries.update({_id: MyEntry._id}, {status: 'complete'});
 }
