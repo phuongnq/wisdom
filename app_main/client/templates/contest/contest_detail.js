@@ -1,11 +1,49 @@
-
+//DumpData
+/*var Questions = [{
+  text: 'question 1',
+  answers: [{
+    code: 'a',
+    text: 'Choice 1'
+  }, {
+    code: 'b',
+    text: 'Choice 2'
+  }, {
+    code: 'c',
+    text: 'Choice 3'
+  }, {
+    code: 'd',
+    text: 'Choice 4'
+  }],
+  correct_answer: 'a'
+}, 
+{
+  text: 'question 2',
+  answers: [{
+    code: 'a',
+    text: 'Choice 1'
+  }, {
+    code: 'b',
+    text: 'Choice 2'
+  }, {
+    code: 'c',
+    text: 'Choice 3'
+  }, {
+    code: 'd',
+    text: 'Choice 4'
+  }],
+  correct_answer: 'a'
+}];*/
+var Questions;
+var QuestionReactive = new ReactiveVar();
 
 Template.contestDetail.created = function() {
   console.log('123');
+  Questions = Contests.findOne().questions;
 }
 
 Template.contestDetail.rendered = function() {
   console.log('rendered');
+  jumpQuestion(1);
   createChart();
 }
 
@@ -15,6 +53,29 @@ Template.contestDetail.helpers({
   },
   errorClass: function (field) {
     return !!Session.get('postSubmitErrors')[field] ? 'has-error' : '';
+  },
+  questionContent: function(){
+    return QuestionReactive.get().content;
+  },
+  questionListButtons: function(){
+    var qnum = Questions.length;
+    var listbuttons = [];
+    for (var i = 0; i < qnum; i ++){
+      listbuttons.push(i);
+    }
+    return listbuttons;
+  }
+});
+
+Template.contestDetail.events({
+  'click .upvote': function(e) {
+    e.preventDefault();
+    //Meteor.call('upvote', this._id);
+  },
+  'click .question-btn': function(e) {
+    e.preventDefault();
+    var qid = $(e.target).closest('.question-btn').attr('question-id');
+    jumpQuestion(qid);
   }
 });
 
@@ -30,8 +91,8 @@ function createChart(){
 	      .tooltips(false)        //Don't show tooltips
 	      .showValues(false)       //...instead, show the bar value right on top of each bar.
 	      .duration(350)
-	      .showYAxis(true)
-	      .showXAxis(false)
+	      .showYAxis(false)
+	      .showXAxis(true)
 	      ;
 
 	  d3.select('#chart svg#c1')
@@ -54,39 +115,46 @@ function exampleData() {
       key: "Cumulative Return",
       values: [
         { 
-          "label" : "A Label" ,
+          "label" : "A" ,
           "value" : -29.765957771107
         } , 
         { 
-          "label" : "B Label" , 
+          "label" : "B" , 
           "value" : 0
         } , 
         { 
-          "label" : "C Label" , 
+          "label" : "C" , 
           "value" : 32.807804682612
         } , 
         { 
-          "label" : "D Label" , 
+          "label" : "D" , 
           "value" : 196.45946739256
         } , 
         { 
-          "label" : "E Label" ,
+          "label" : "E" ,
           "value" : 0.19434030906893
         } , 
         { 
-          "label" : "F Label" , 
+          "label" : "F" , 
           "value" : -98.079782601442
         } , 
         { 
-          "label" : "G Label" , 
+          "label" : "G" , 
           "value" : -13.925743130903
         } , 
         { 
-          "label" : "H Label" , 
+          "label" : "H" , 
           "value" : -5.1387322875705
         }
       ]
     }
   ]
 
+}
+
+function jumpQuestion(number){
+  QuestionReactive.set({
+    'current': number,
+    'content': Questions[number].text + number
+  })
 }
