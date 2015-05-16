@@ -34,27 +34,31 @@
   correct_answer: 'a'
 }];*/
 var Questions;
-var contestReactive = new ReactiveVar();
-var QuestionReactive = new ReactiveVar();
+var contestReactive = new ReactiveVar(null);
+var QuestionReactive = new ReactiveVar(null);
 
 Template.contestDetail.created = function() {
   var contestId = this.data.contestId;
+  console.log(contestId);
   var contest = Contests.findOne({_id: contestId});
+  contestReactive.set(contest);
   if (contest) {
-    contestReactive.set(contest);
     Questions = contest.questions;
   }
-}
+};
 
 Template.contestDetail.rendered = function() {
   console.log('rendered');
   jumpQuestion(1);
   createChart();
-}
+};
 
 Template.contestDetail.helpers({
+  contest: function() {
+    return contestReactive.get();
+  },
   contestName: function() {
-    return contestReactive.get() ? contestReactive.get().name : '';
+    return contestReactive.get() ? contestReactive.get().name : 'Contest Details';
   },
   errorMessage: function(field) {
     return Session.get('postSubmitErrors')[field];
@@ -66,6 +70,8 @@ Template.contestDetail.helpers({
     return QuestionReactive.get() ? QuestionReactive.get().content : null;
   },
   questionListButtons: function() {
+    if (!Questions) return null;
+
     var qnum = Questions.length;
     var listbuttons = [];
     for (var i = 0; i < qnum; i ++){
@@ -165,6 +171,8 @@ function exampleData() {
 }
 
 function jumpQuestion(number){
+  if (!Questions) return;
+1
   QuestionReactive.set({
     'current': number,
     'content': Questions[number].text + number

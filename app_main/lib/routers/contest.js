@@ -23,3 +23,7 @@ Router.route('/contest/math', {
 Router.route('/comming-soon', {
   name: 'comingSoon'
 });
+
+Router.route('/contest/my-contest', {
+  name: 'contestMyContest'
+});

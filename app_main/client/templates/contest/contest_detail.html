@@ -11,48 +11,55 @@
       </div>
     </div>
 
-    <div id="chart">
-      <svg id="c1"></svg>
-      <svg id="c2"></svg>
-    </div>
+    {{#if contest}}
+      <div id="chart">
+        <svg id="c1"></svg>
+        <svg id="c2"></svg>
+      </div>
 
-    <div class="questionContainer">
-      <div class="question">{{questionContent}}</div>
-      <div class="answer">
-        <div class="col-xs-12">
-        	<button class="btn btn-default choice">A. alfaaflsajfsf ljfljfsfl </button>
-        </div>
-        <div class="col-xs-12">
-        	<button class="btn btn-default choice">B</button>
-        </div>
-        <div class="col-xs-12">
-        	<button class="btn btn-default choice">C</button>
-        </div>
-        <div class="col-xs-12">
-        	<button class="btn btn-default choice">D</button>
-        </div>
-        <div class="submit">
-          <button class="btn btn-default submit-answer">Submit</button>
+      <div class="questionContainer">
+        <div class="question">{{questionContent}}</div>
+        <div class="answer">
+          <div class="col-xs-12">
+          	<button class="btn btn-default choice">A. alfaaflsajfsf ljfljfsfl </button>
+          </div>
+          <div class="col-xs-12">
+          	<button class="btn btn-default choice">B</button>
+          </div>
+          <div class="col-xs-12">
+          	<button class="btn btn-default choice">C</button>
+          </div>
+          <div class="col-xs-12">
+          	<button class="btn btn-default choice">D</button>
+          </div>
+          <div class="submit">
+            <button class="btn btn-default submit-answer">Submit</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="btn-group question-btns" role="group" aria-label="...">
-      <!-- <button type="button" class="btn btn-default">1</button>
-      <button type="button" class="btn btn-default">2</button>
-      <button type="button" class="btn btn-primary">3</button>
-      <button type="button" class="btn btn-default">4</button>
-      <button type="button" class="btn btn-danger">5</button>
-      <button type="button" class="btn btn-success">6</button>
-      <button type="button" class="btn btn-default">7</button>
-      <button type="button" class="btn btn-info">8</button>
-      <button type="button" class="btn btn-warning">9</button>
-      <button type="button" class="btn btn-default">7</button>
-      <button type="button" class="btn btn-info">8</button>
-      <button type="button" class="btn btn-warning">9</button> -->
-      {{#each questionListButtons}}
-      	<button type="button" class="btn btn-default question-btn" question-id={{this}}>{{this}}</button>
-      {{/each}}
-    </div>
+      <div class="btn-group question-btns" role="group" aria-label="...">
+        <!-- <button type="button" class="btn btn-default">1</button>
+        <button type="button" class="btn btn-default">2</button>
+        <button type="button" class="btn btn-primary">3</button>
+        <button type="button" class="btn btn-default">4</button>
+        <button type="button" class="btn btn-danger">5</button>
+        <button type="button" class="btn btn-success">6</button>
+        <button type="button" class="btn btn-default">7</button>
+        <button type="button" class="btn btn-info">8</button>
+        <button type="button" class="btn btn-warning">9</button>
+        <button type="button" class="btn btn-default">7</button>
+        <button type="button" class="btn btn-info">8</button>
+        <button type="button" class="btn btn-warning">9</button> -->
+        {{#each questionListButtons}}
+        	<button type="button" class="btn btn-default question-btn" question-id={{this}}>{{this}}</button>
+        {{/each}}
+      </div>
+    {{else}}
+      <span class="not-found">
+        Contest not found.
+        <br/>Please choose a contest from contest lists!
+      </span>
+    {{/if}}
   </div>
 </template>
