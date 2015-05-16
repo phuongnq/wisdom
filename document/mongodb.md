@@ -30,3 +30,40 @@
     "point" : 100
 }
 ```
+
+## subjects
+```
+"_id": Meteor default id
+"name": String
+```
+
+## contests
+```
+"_id": Meteor default id
+"subject_id": subject id
+"name": String
+"start_at": timestamp
+"entries": [{
+  "user_id": user id
+  "user_first_name": user first name
+  "score": user score in contest
+  "question": current question number
+  "rank": user rank in contests
+  "winning": user winning W-point in contest
+}]
+"max_entries": max number of allowed entries
+"prize_structure": [{
+  "winners": number of winners for this rank
+  "value": value in W-point for this rank
+}]
+"questions": [{
+  "text": full text of the question
+  "answers": [{
+    "code": answer code (a-z)
+    "text": full text of the answer
+  }]
+  "cost": cost in score to answer
+  "reward": reward in score if answered correctly
+  "correct_answer": answer code (a-z) --> Do not send this to client
+}]
+```
