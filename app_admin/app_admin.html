@@ -3,8 +3,28 @@
 </head>
 
 <body>
-  <h1>Manage contests</h1>
-  {{> contestCalendar}}
+  <h1>Teacher Support Tools</h1>
+  <div id="content">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#contest-tool" data-toggle="tab">Contest Management</a></li>
+        <li><a href="#students-tool" data-toggle="tab">Students Management</a></li>
+        <li><a href="#statistics" data-toggle="tab">Contest Statistics</a></li>
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="contest-tool">
+            <h1>Contest Management</h1>
+            {{> contestCalendar}}
+        </div>
+        <div class="tab-pane" id="students-tool">
+            <h1>Students Management</h1>
+            <p>Student Management Coming Soon</p>
+        </div>
+        <div class="tab-pane" id="statistics">
+            <h1>Contest Statistics</h1>
+            <p>Know which knowledge your students need to practices more</p>
+        </div>
+    </div>
+</div>
 </body>
 
 <template name="contestCalendar">
