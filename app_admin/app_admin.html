@@ -100,6 +100,16 @@
                 <div class="form-group">
                   <div class="col-md-12">
                     <div class="col-md-4">
+                      <label class="control-label">Duration (minutes):</label>
+                    </div>
+                    <div class="col-md-8">
+                      <input type="text" id="contest-duration" value="{{contest.duration}}" required {{disabledAttr}} />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="col-md-4">
                       <label class="control-label">Max entries:</label>
                     </div>
                     <div class="col-md-8">
@@ -177,12 +187,13 @@
         </div>
         <div class="modal-footer">
           {{#if creating}}
-          <button type="button" class="btn btn-primary" id="contest-save">Save</button>
+            <button type="button" class="btn btn-primary" id="contest-save">Save</button>
           {{/if}}
 
           {{#if editing}}
-          <button type="button" class="btn btn-primary" id="contest-save">Save</button>
-          <button type="button" class="btn btn-default btn-warning" id="contest-remove">Remove</button>
+            <button type="button" class="btn btn-warning" id="contest-start">Start</button>
+            <button type="button" class="btn btn-primary" id="contest-save">Save</button>
+            <button type="button" class="btn btn-default btn-warning" id="contest-remove">Remove</button>
           {{/if}}
 
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
