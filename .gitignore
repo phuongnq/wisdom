@@ -1,0 +1,8 @@
+.meteor/local
+.meteor/meteorite
+public/node_modules
+npm-debug.log
+.npm
+packages/*/.npm
+.tmp
+.build/*_env.json
