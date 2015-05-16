@@ -22,5 +22,9 @@ Template.mathContestsList.events({
   'click .back-btn': function(e) {
     e.preventDefault();
     Router.go('home');
+  },
+  'click .contest-cell': function(e) {
+    var contestId = $(e.target).closest('.contest-cell').attr('contest-id');
+    Router.go('/contest/detail/' + contestId);
   }
 });

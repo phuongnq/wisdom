@@ -15,7 +15,7 @@
     text: 'Choice 4'
   }],
   correct_answer: 'a'
-}, 
+},
 {
   text: 'question 2',
   answers: [{
@@ -34,11 +34,16 @@
   correct_answer: 'a'
 }];*/
 var Questions;
+var contestReactive = new ReactiveVar();
 var QuestionReactive = new ReactiveVar();
 
 Template.contestDetail.created = function() {
-  console.log('123');
-  Questions = Contests.findOne().questions;
+  var contestId = this.data.contestId;
+  var contest = Contests.findOne({_id: contestId});
+  if (contest) {
+    contestReactive.set(contest);
+    Questions = contest.questions;
+  }
 }
 
 Template.contestDetail.rendered = function() {
@@ -48,6 +53,9 @@ Template.contestDetail.rendered = function() {
 }
 
 Template.contestDetail.helpers({
+  contestName: function() {
+    return contestReactive.get() ? contestReactive.get().name : '';
+  },
   errorMessage: function(field) {
     return Session.get('postSubmitErrors')[field];
   },
@@ -55,9 +63,9 @@ Template.contestDetail.helpers({
     return !!Session.get('postSubmitErrors')[field] ? 'has-error' : '';
   },
   questionContent: function(){
-    return QuestionReactive.get().content;
+    return QuestionReactive.get() ? QuestionReactive.get().content : null;
   },
-  questionListButtons: function(){
+  questionListButtons: function() {
     var qnum = Questions.length;
     var listbuttons = [];
     for (var i = 0; i < qnum; i ++){
@@ -76,6 +84,10 @@ Template.contestDetail.events({
     e.preventDefault();
     var qid = $(e.target).closest('.question-btn').attr('question-id');
     jumpQuestion(qid);
+  },
+  'click .back-btn': function(e) {
+    e.preventDefault();
+    Router.go('/contest/math');
   }
 });
 
@@ -110,40 +122,40 @@ function createChart(){
 }
 //Each bar represents a single discrete quantity.
 function exampleData() {
- return  [ 
+ return  [
     {
       key: "Cumulative Return",
       values: [
-        { 
+        {
           "label" : "A" ,
           "value" : -29.765957771107
-        } , 
-        { 
-          "label" : "B" , 
+        } ,
+        {
+          "label" : "B" ,
           "value" : 0
-        } , 
-        { 
-          "label" : "C" , 
+        } ,
+        {
+          "label" : "C" ,
           "value" : 32.807804682612
-        } , 
-        { 
-          "label" : "D" , 
+        } ,
+        {
+          "label" : "D" ,
           "value" : 196.45946739256
-        } , 
-        { 
+        } ,
+        {
           "label" : "E" ,
           "value" : 0.19434030906893
-        } , 
-        { 
-          "label" : "F" , 
+        } ,
+        {
+          "label" : "F" ,
           "value" : -98.079782601442
-        } , 
-        { 
-          "label" : "G" , 
+        } ,
+        {
+          "label" : "G" ,
           "value" : -13.925743130903
-        } , 
-        { 
-          "label" : "H" , 
+        } ,
+        {
+          "label" : "H" ,
           "value" : -5.1387322875705
         }
       ]

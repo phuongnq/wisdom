@@ -1,6 +1,16 @@
 
-Router.route('/contest/detail', {
-  name: 'contestDetail'
+Router.route('/contest/detail/:_contestId', {
+  name: 'contestDetail',
+  data: function() {
+    return {
+      contestId: this.params._contestId
+    };
+  },
+  waitOn: function() {
+    return [
+      Subs.subscribe('contests')
+    ];
+  }
 });
 
 Router.route('/contest/math', {
