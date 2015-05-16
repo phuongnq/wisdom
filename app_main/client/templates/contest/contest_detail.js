@@ -50,7 +50,9 @@ Template.contestDetail.helpers({
     return ContestReactive.get() ? ContestReactive.get().name : 'Contest Details';
   },
   questionContent: function(){
-    return QuestionReactive.get() ? QuestionReactive.get().content : null;
+    var ret = QuestionReactive.get() ? QuestionReactive.get().content : null;
+    Meteor.setTimeout(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub,ret]);}, 500);
+    return ret;
   },
   questionListButtons: function() {
     if (!thisContest) return null;
@@ -86,6 +88,7 @@ Template.contestDetail.events({
   },
   'click .question-btn': function(e) {
     e.preventDefault();
+    $('div.question').html('');
     var qid = $(e.target).closest('.question-btn').attr('question-id');
     jumpQuestion(qid);
   },

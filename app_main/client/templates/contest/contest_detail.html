@@ -17,7 +17,11 @@
       </div>
 
       <div class="questionContainer">
-        <div class="question">{{questionContent}}</div>
+        <div class="question">
+        {{#mathjax}}
+          {{questionContent}}
+        {{/mathjax}}
+        </div>
         <div class="answer">
           {{#each answers}}
           <div class="col-xs-12">
