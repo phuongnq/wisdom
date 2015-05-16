@@ -3,7 +3,7 @@
     <div class="col-xs-12 contest-list-header">
       <div class="col-xs-3">
         <a href="#" class="back-btn">
-            <span class="glyphicon glyphicon-menu-left back-icon"></span>
+          <span class="glyphicon glyphicon-menu-left back-icon"></span>
         </a>
       </div>
       <div class="col-xs-9 header-text">
@@ -14,7 +14,6 @@
     {{#if contest}}
       <div id="chart">
         <svg id="c1"></svg>
-        <svg id="c2"></svg>
       </div>
 
       <div class="questionContainer">
@@ -22,27 +21,12 @@
         <div class="answer">
           {{#each answers}}
           <div class="col-xs-12">
-          	<button class="btn btn-default choice" data-code='{{code}}'>{{text}}</button>
+          	<button class="btn {{ansClass}} choice" data-code='{{code}}'>{{text}}</button>
           </div>
           {{/each}}
-          <div class="submit">
-            <button class="btn btn-default submit-answer">Submit</button>
-          </div>
         </div>
 
         <div class="btn-group question-btns" role="group" aria-label="...">
-          <!-- <button type="button" class="btn btn-default">1</button>
-          <button type="button" class="btn btn-default">2</button>
-          <button type="button" class="btn btn-primary">3</button>
-          <button type="button" class="btn btn-default">4</button>
-          <button type="button" class="btn btn-danger">5</button>
-          <button type="button" class="btn btn-success">6</button>
-          <button type="button" class="btn btn-default">7</button>
-          <button type="button" class="btn btn-info">8</button>
-          <button type="button" class="btn btn-warning">9</button>
-          <button type="button" class="btn btn-default">7</button>
-          <button type="button" class="btn btn-info">8</button>
-          <button type="button" class="btn btn-warning">9</button> -->
           {{#each questionListButtons}}
           	<button type="button" class="btn btn-default question-btn question-btn-{{this}}" question-id={{this}}>{{this}}</button>
           {{/each}}

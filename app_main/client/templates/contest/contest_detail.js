@@ -13,12 +13,12 @@ Template.contestDetail.created = function() {
 
   Tracker.autorun(function() {
     //console.log('There are ' + Posts.find().count() + ' posts');
-    var AllEntries = Entries.find({contest_id: contestId}, {sort: {question: 1}}).fetch();
+    var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
     MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() }) || 
       Entries.insert({
         "contest_id": contestId,
         "user_id": Meteor.userId(),
-        "user_first_name": Meteor.userId(),
+        "user_first_name": Meteor.user().services.facebook.first_name,
         "score": 0,
         "question": 0,
         "rank": 1,
@@ -49,12 +49,6 @@ Template.contestDetail.helpers({
   contestName: function() {
     return ContestReactive.get() ? ContestReactive.get().name : 'Contest Details';
   },
-  errorMessage: function(field) {
-    return Session.get('postSubmitErrors')[field];
-  },
-  errorClass: function (field) {
-    return !!Session.get('postSubmitErrors')[field] ? 'has-error' : '';
-  },
   questionContent: function(){
     return QuestionReactive.get() ? QuestionReactive.get().content : null;
   },
@@ -69,7 +63,18 @@ Template.contestDetail.helpers({
   },
   answers: function(){
     var current = QuestionReactive.get() ? QuestionReactive.get().current : null;
-    if (!current) return null;
+    if (current == null) return null;
+    var answers = thisContest.questions[current].answers;
+    for (var i in answers){
+      answers[i].ansClass = 'btn-default';
+      if (MyEntry && MyEntry.answers[current] && answers[i].code == MyEntry.answers[current]){
+        if (MyEntry.answers[current] == thisContest.questions[current].correct_answer){
+          answers[i].ansClass = 'btn-success';
+        } else {
+          answers[i].ansClass = 'btn-danger';
+        }
+      }
+    }
     return thisContest.questions[current].answers;
   }
 });
@@ -108,6 +113,7 @@ function createChart(AllEntries){
       .duration(350)
       .showYAxis(false)
       //.showXAxis(false)
+      .margin({left: 10})
       ;
 
 	  updateChart(AllEntries);
@@ -136,7 +142,7 @@ function chartData(AllEntries) {
   for (var i = 0; i < AllEntries.length; i ++){
     var entry = AllEntries[i];
     values.push({
-      label: entry.question,
+      label: entry.user_first_name,
       value: entry.score
     });
   }
@@ -150,9 +156,11 @@ function chartData(AllEntries) {
 
 function jumpQuestion(number){
   if (!thisContest) return;
+  if (number < 0) number = 0;
+  else if (number >= thisContest.questions.length) number = thisContest.questions.length - 1;
   QuestionReactive.set({
     'current': number,
-    'content': thisContest.questions[number].text + number
+    'content': thisContest.questions[number] ? thisContest.questions[number].text : 'Done' 
   })
   if (MyEntry){
     MyEntry.question = number;
