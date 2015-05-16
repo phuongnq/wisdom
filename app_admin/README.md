@@ -1,1 +1,0 @@
-Addmin page
