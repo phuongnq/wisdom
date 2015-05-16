@@ -22,7 +22,7 @@
         <div class="answer">
           {{#each answers}}
           <div class="col-xs-12">
-          	<button class="btn btn-default choice">{{text}} </button>
+          	<button class="btn btn-default choice" data-code='{{code}}'>{{text}}</button>
           </div>
           {{/each}}
           <div class="submit">
@@ -44,14 +44,14 @@
           <button type="button" class="btn btn-info">8</button>
           <button type="button" class="btn btn-warning">9</button> -->
           {{#each questionListButtons}}
-          	<button type="button" class="btn btn-default question-btn" question-id={{this}}>{{this}}</button>
+          	<button type="button" class="btn btn-default question-btn question-btn-{{this}}" question-id={{this}}>{{this}}</button>
           {{/each}}
         </div>
       </div>
     {{else}}
       <span class="not-found">
         Contest not found.
-        <br/>Please choose a contest from contest lists!
+        <br/>Please select a contest from the contest list!
       </span>
     {{/if}}
   </div>
