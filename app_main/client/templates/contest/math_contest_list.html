@@ -11,29 +11,30 @@
       </div>
     </div>
     <div class="contest-list-body">
-
-      <div class="contest-cell clearfix">
-        <div class="col-xs-12">
-          <span class="contest-name">Contest name</span>
+      {{#each contests}}
+        <div class="contest-cell clearfix" contest-id="{{_id}}">
+          <div class="col-xs-12">
+            <span class="contest-name">{{name}}</span>
+          </div>
+          <div class="col-xs-12 detail">
+            <div class="col-xs-4">
+              <span class="title">Start in</span>
+              <br/>
+              <span class="value">10:00:00</span>
+            </div>
+            <div class="col-xs-4">
+              <span class="title">Entries</span>
+              <br/>
+              <span class="value">{{entry_count}}/{{max_entries}}</span>
+            </div>
+            <div class="col-xs-4">
+              <span class="title">Prizes</span>
+              <br/>
+              <span class="value"><span class="wisdom-point">W</span>{{total_prizes}}</span>
+            </div>
+          </div>
         </div>
-        <div class="col-xs-12 detail">
-          <div class="col-xs-4">
-            <span class="title">Start in</span>
-            <br/>
-            <span class="value">10:00:00</span>
-          </div>
-          <div class="col-xs-4">
-            <span class="title">Entries</span>
-            <br/>
-            <span class="value">10/100</span>
-          </div>
-          <div class="col-xs-4">
-            <span class="title">Prizes</span>
-            <br/>
-            <span class="value"><span class="wisdom-point">W</span>-100</span>
-          </div>
-        </div>
-      </div>
+      {{/each}}
 
     </div>
   </div>
