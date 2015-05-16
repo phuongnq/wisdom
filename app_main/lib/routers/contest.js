@@ -26,7 +26,13 @@ Router.route('/comming-soon', {
 });
 
 Router.route('/contest/my-contest', {
-  name: 'contestMyContest'
+  name: 'contestMyContest',
+  waitOn: function() {
+    return [
+      Subs.subscribe('contests'),
+      Subs.subscribe('entries')
+    ];
+  }
 });
 
 Router.route('/contest/upcoming/:_contestId', {

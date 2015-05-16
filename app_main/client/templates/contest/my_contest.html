@@ -10,5 +10,32 @@
         <span>My Contests</span>
       </div>
     </div>
+
+      <div class="contest-list-body">
+        {{#each contests}}
+          <div class="contest-cell clearfix" contest-id="{{_id}}">
+            <div class="col-xs-12">
+              <span class="contest-name">{{name}}</span>
+            </div>
+            <div class="col-xs-12 detail">
+              <div class="col-xs-4">
+                <span class="title">Start at</span>
+                <br/>
+                <span class="value">{{dateFormat start_at}}</span>
+              </div>
+              <div class="col-xs-4">
+                <span class="title">Entries</span>
+                <br/>
+                <span class="value">{{entry_count}}/{{max_entries}}</span>
+              </div>
+              <div class="col-xs-4">
+                <span class="title">Won</span>
+                <br/>
+                <span class="value"><span class="wisdom-point">W</span>&nbsp;<strong>{{won}}</strong></span>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+    </div>
   </div>
 </template>
