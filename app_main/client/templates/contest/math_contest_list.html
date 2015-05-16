@@ -1,3 +1,40 @@
 <template name="mathContestsList">
+  <div id="{{active_route}}-wrapper">
+    <div class="col-xs-12 contest-list-header">
+      <div class="col-xs-3">
+        <a href="#" class="back-btn">
+            <span class="glyphicon glyphicon-menu-left back-icon"></span>
+        </a>
+      </div>
+      <div class="col-xs-9 header-text">
+        <span>Select contests</span>
+      </div>
+    </div>
+    <div class="contest-list-body">
 
+      <div class="contest-cell clearfix">
+        <div class="col-xs-12">
+          <span class="contest-name">Contest name</span>
+        </div>
+        <div class="col-xs-12 detail">
+          <div class="col-xs-4">
+            <span class="title">Start in</span>
+            <br/>
+            <span class="value">10:00:00</span>
+          </div>
+          <div class="col-xs-4">
+            <span class="title">Entries</span>
+            <br/>
+            <span class="value">10/100</span>
+          </div>
+          <div class="col-xs-4">
+            <span class="title">Prizes</span>
+            <br/>
+            <span class="value"><span class="wisdom-point">W</span>-100</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </template>

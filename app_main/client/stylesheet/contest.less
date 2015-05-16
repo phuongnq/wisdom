@@ -1,5 +1,49 @@
 @import 'base.import.less';
 
+#mathContestsList-wrapper {
+  .contest-list-header {
+    height: 40px;
+    line-height: 40px;
+    background-color: @color-less-black;
+  }
+  .back-btn {
+    font-size: 2.5rem;
+  }
+  .header-text {
+    left: 5%;
+    font-weight: 600;
+    font-size: 2rem;
+    color: @color-blue;
+  }
+  .contest-cell {
+    border-bottom: 1px solid fade(@color-less-grey, 40%);
+    .contest-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: @color-blue;
+    }
+    .detail {
+      text-align: center;
+      .title {
+        font-weight: 600;
+        color: @color-grey;
+      }
+    }
+  }
+}
+
+.wisdom-point  {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  font-weight: bold;
+  color: @color-navi;
+  background: @color-less-grey;
+}
+
 .questionContainer {
   .question {
 
