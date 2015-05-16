@@ -9,7 +9,7 @@ Template.mathContestsList.helpers({
       var prizeStructure = contest.prize_structure;
       var totalPrize = 0;
       _.each(prizeStructure, function(prize) {
-        totalPrize += prize.winners * prize.value;
+        totalPrize += prize.winner * prize.value;
       });
       contest.total_prizes = totalPrize;
       contest.entry_count = Entries.find({contest_id: contest._id}).count();

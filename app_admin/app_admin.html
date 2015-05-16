@@ -1,182 +1,205 @@
 <head>
-  <title>app_admin</title>
+  <title>Interactive School - Admin Tool</title>
 </head>
 
 <body>
   <h1>Manage contests</h1>
-
   {{> contestCalendar}}
 </body>
 
 <template name="contestCalendar">
+  <div class="modal modal-wide fade" id="create-contest-dlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-<div class="modal modal-wide fade" id="create-contest-dlg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          {{#if creating}}
+            <h4 class="modal-title" id="myModalLabel">Create contest</h4>
+          {{/if}}
 
-        {{#if creating}}
-        <h4 class="modal-title" id="myModalLabel">Create contest</h4>
-        {{/if}}
+          {{#if editing}}
+            <h4 class="modal-title" id="myModalLabel">Edit contest</h4>
+          {{/if}}
 
-        {{#if editing}}
-        <h4 class="modal-title" id="myModalLabel">Edit contest</h4>
-        {{/if}}
-        
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal">
-          <div class="row">
-            <div class="col-md-5">
-              <div class="form-group">
-                <label class="col-sm-5 control-label">Name:</label>
-                <input type="text" id="contest-name" required {{disabledAttr}} value="{{contest.name}}"/>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-5 control-label">Subject:</label>
-                <select id="contest-subject" value="{{contest.subject}}" {{disabledAttr}}>
-                  <option value="Mathematics">Mathematics</option>
-                  <option value="Physics">Physics</option>
-                  <option value="Chemistry">Chemistry</option>
-                  <option value="Biology">Biology</option>
-                  <option value="Informatics">Informatics</option>
-                  <option value="Geography">Geography</option>
-                  <option value="English">English</option>
-                </select>
-              </div> 
-              <div class="form-group">
-                <label class="col-sm-5 control-label">Prizes:</label>
-              </div>
-            
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-sm-2" style="text-align:center">
-                    Prize
-                  </div>
-                  <div class="col-sm-4" style="text-align:center">
-                    Winners
-                  </div>
-                  <div class="col-sm-4" style="text-align:center">
-                    Value
-                  </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">Name:</label>
+                  <input type="text" id="contest-name" required {{disabledAttr}} value="{{contest.name}}"/>
                 </div>
-                {{#each contest.prize_structure}}
-                <div class="row">
-                  <div class="col-sm-4" style="text-align:center">
-                    <div class="form-group">
-                      {{prize}} <button type="button" class="btn btn-warning" id="prize-delete" prize="{{prize}}">Del</button> 
-                    </div>
-                  </div>
-                  <div class="col-sm-4" style="text-align:center">
-                    <div class="form-group">
-                      <input type="number" id="winners_{{prize}}" value="{{winner}}"/>
-                    </div>
-                  </div>
-                  <div class="col-sm-4" style="text-align:center">
-                    <div class="form-group">
-                      <input type="number" id="value_{{prize}}" value="{{value}}"/>
-                    </div>
-                  </div>        
+                <div class="form-group">
+                  <label class="control-label">Subject:</label>
+                  <select id="contest-subject" value="{{contest.subject}}" {{disabledAttr}}>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Informatics">Informatics</option>
+                    <option value="Geography">Geography</option>
+                    <option value="English">English</option>
+                  </select>
                 </div>
-                {{/each}}
-                <div class="row">
-                  <div class="col-sm-6" style="text-align:center">
-                    <button type="button" class="btn btn-default" id="prize-add">Add prize</button>
-                  </div>
-                </div>                
-              </div>               
-            </div>
-            <div class="col-md-5">
-              <div class="form-group">
-                <label class="col-sm-5 control-label">Start at:</label>
-                <input type="text" id="contest-start_at" value="{{contest.start_at}}" required {{disabledAttr}} />
-              </div>
-              <div class="form-group">
-                <label class="col-sm-5 control-label">Max entries:</label>
-                <input type="text" id="contest-max_entries" value="{{contest.max_entries}}" required {{disabledAttr}} />
-              </div> 
-              <div class="form-group">
-                <label class="col-sm-5 control-label">Questions:</label>
-              </div>
-            
-              <div class="form-group">
-                {{#each contest.questions}}
-                <div class="row">
-                  <div class="col-sm-2" style="text-align:center">
-                    <div class="form-group">
-                      {{question}} <button type="button" class="btn btn-warning" id="question-delete" question="{{question}}">Del</button> 
+                <div class="form-group">
+                  <label class="control-label">Prizes:</label>
+                </div>
+
+                <div class="form-group">
+                  <div class="row col-md-12">
+                    <div class="col-md-2">
+                      Prize
+                    </div>
+                    <div class="col-md-5">
+                      Winners
+                    </div>
+                    <div class="col-md-5">
+                      Value
                     </div>
                   </div>
-                  <div class="col-sm-10" style="text-align:center">
-                    <div class="row">
-                      <div class="col-sm-3">Question:</div>
-                      <div class="col-sm-9" style="text-align:center">
+                  {{#each contest.prize_structure}}
+                    <div class="row col-md-12">
+                      <div class="col-md-2">
                         <div class="form-group">
-                          <textarea id="text_{{question}}">{{text}}</textarea>
+                          <span class="stt">{{prize}}</span> <button type="button" class="btn btn-warning" id="prize-delete" prize="{{prize}}">Del</button>
                         </div>
-                      </div>                      
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-3">Answer</div>
-                      <div class="col-sm-3">Right answer</div>
-                      <div class="col-sm-6">Text</div>
-                    </div>
-                    {{#each answers}}
-                    <div class="row">
-                      <div class="col-sm-3">{{code}}</div>
-                      {{#if correct_answer}}
-                      <div class="col-sm-3"><input type="radio" name="correct_answer_{{question}}" value="{{code}}" checked="checked"></div>
-                      {{else}}
-                      <div class="col-sm-3"><input type="radio" name="correct_answer_{{question}}" value="{{code}}"></div>
-                      {{/if}}
-                      <div class="col-sm-6"><input type="text" id="answer_{{question}}_{{code}}" required {{disabledAttr}} value="{{text}}"/></div>
-                    </div>
-                    {{/each}}                
-                    <div class="row">
-                      <div class="col-sm-6" style="text-align:center">
+                      </div>
+                      <div class="col-md-5">
                         <div class="form-group">
-                          <label class="col-sm-5 control-label">Cost:</label>
+                          <input type="number" id="winners_{{prize}}" value="{{winner}}"/>
+                        </div>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <input type="number" id="value_{{prize}}" value="{{value}}"/>
+                        </div>
+                      </div>
+                    </div>
+                  {{/each}}
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <button type="button" class="btn btn-default" id="prize-add">Add prize</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="col-md-4">
+                      <label class="control-label">Start at:</label>
+                    </div>
+                    <div class="col-md-8">
+                      <input type="text" id="contest-start_at" value="{{contest.start_at}}" required {{disabledAttr}} />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="col-md-4">
+                      <label class="control-label">Duration (minutes):</label>
+                    </div>
+                    <div class="col-md-8">
+                      <input type="text" id="contest-duration" value="{{contest.duration}}" required {{disabledAttr}} />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="col-md-4">
+                      <label class="control-label">Max entries:</label>
+                    </div>
+                    <div class="col-md-8">
+                      <input type="text" id="contest-max_entries" value="{{contest.max_entries}}" required {{disabledAttr}} />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Questions:</label>
+                </div>
+
+                <div class="form-group">
+                  {{#each contest.questions}}
+                  <div class="row col-md-12 contest-question" >
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <span class="stt">{{question}}</span> <button type="button" class="btn btn-warning" id="question-delete" question="{{question}}">Del</button>
+                      </div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="row">
+                        <div class="col-md-3">Question:</div>
+                        <div class="col-md-9">
+                          <div class="form-group">
+                            <textarea id="text_{{question}}">{{text}}</textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-3">Answer</div>
+                        <div class="col-md-3">Right answer</div>
+                        <div class="col-md-6">Text</div>
+                      </div>
+                      {{#each answers}}
+                      <div class="row">
+                        <div class="col-md-3">{{code}}</div>
+                        {{#if correct_answer}}
+                        <div class="col-md-3"><input type="radio" name="correct_answer_{{question}}" value="{{code}}" checked="checked"></div>
+                        {{else}}
+                        <div class="col-md-3"><input type="radio" name="correct_answer_{{question}}" value="{{code}}"></div>
+                        {{/if}}
+                        <div class="col-md-6"><input type="text" id="answer_{{question}}_{{code}}" required {{disabledAttr}} value="{{text}}"/></div>
+                      </div>
+                      {{/each}}
+                    </div>
+                    <div class="row col-md-12">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="col-md-5 control-label">Cost:</label>
                           <input type="number" id="cost_{{question}}" value="{{cost}}"/>
                         </div>
                       </div>
-                      <div class="col-sm-6" style="text-align:center">
+                      <div class="col-md-6">
                         <div class="form-group">
-                        <label class="col-sm-5 control-label">Reward:</label>
+                        <label class="col-md-5 control-label">Reward:</label>
                           <input type="number" id="reward_{{question}}" value="{{reward}}"/>
                         </div>
-                      </div>                  
-                    </div>                    
-                  </div>                 
-                </div>
-
-       
-                {{/each}}
-                <div class="row">
-                  <div class="col-sm-6" style="text-align:center">
-                    <button type="button" class="btn btn-default" id="question-add">Add question</button>
+                      </div>
+                    </div>
                   </div>
-                </div>                
-              </div>                 
+                  {{/each}}
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <button type="button" class="btn btn-default" id="question-add">Add question</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        {{#if creating}}
-        <button type="button" class="btn btn-primary" id="contest-save">Save</button>
-        {{/if}}
+          </form>
+        </div>
+        <div class="modal-footer">
+          {{#if creating}}
+            <button type="button" class="btn btn-primary" id="contest-save">Save</button>
+          {{/if}}
 
-        {{#if editing}}
-        <button type="button" class="btn btn-primary" id="contest-save">Save</button>
-        <button type="button" class="btn btn-default btn-warning" id="contest-remove">Remove</button>
-        {{/if}}
+          {{#if editing}}
+            <button type="button" class="btn btn-warning" id="contest-start">Start</button>
+            <button type="button" class="btn btn-primary" id="contest-save">Save</button>
+            <button type="button" class="btn btn-default btn-warning" id="contest-remove">Remove</button>
+          {{/if}}
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<div id="fullcalendar"></div>
+  <div id="fullcalendar"></div>
 </template>
