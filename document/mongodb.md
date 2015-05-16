@@ -31,26 +31,12 @@
 }
 ```
 
-## subjects
-```
-"_id": Meteor default id
-"name": String
-```
-
 ## contests
 ```
 "_id": Meteor default id
-"subject_id": subject id
+"subject": subject name (Mathematics, Physics, Chemistry, Biology, Informatics, Geography, English)
 "name": String
 "start_at": timestamp
-"entries": [{
-  "user_id": user id
-  "user_first_name": user first name
-  "score": user score in contest
-  "question": current question number
-  "rank": user rank in contests
-  "winning": user winning W-point in contest
-}]
 "max_entries": max number of allowed entries
 "prize_structure": [{
   "winners": number of winners for this rank
@@ -66,4 +52,17 @@
   "reward": reward in score if answered correctly
   "correct_answer": answer code (a-z) --> Do not send this to client
 }]
+```
+
+## entries
+```
+"_id": Meteor default id
+"contest_id": contest id
+"user_id": user id
+"user_first_name": user first name
+"score": user score in contest
+"question": current question number
+"rank": user rank in contests
+"winning": user winning W-point in contest
+"answers": [answer_code]
 ```
