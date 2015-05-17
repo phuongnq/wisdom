@@ -14,6 +14,15 @@ Router.route('/contest/detail/:_contestId', {
   }
 });
 
+Router.route('/contest/review/:_contestId', {
+  name: 'contestReview',
+  data: function() {
+    return {
+      contestId: this.params._contestId
+    };
+  }
+});
+
 Router.route('/contest/math', {
   name:'mathContestsList',
   onBeforeAction: function() {
@@ -26,7 +35,13 @@ Router.route('/comming-soon', {
 });
 
 Router.route('/contest/my-contest', {
-  name: 'contestMyContest'
+  name: 'contestMyContest',
+  waitOn: function() {
+    return [
+      Subs.subscribe('contests'),
+      Subs.subscribe('entries')
+    ];
+  }
 });
 
 Router.route('/contest/upcoming/:_contestId', {

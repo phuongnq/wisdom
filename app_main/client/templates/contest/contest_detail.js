@@ -45,8 +45,9 @@ Template.contestDetail.created = function() {
   }
 
   Tracker.autorun(function() {
-    //console.log('There are ' + Posts.find().count() + ' posts');
     var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
+    MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
+
     if (!chart) {
       createChart(AllEntries);
     }
@@ -67,13 +68,16 @@ Template.contestDetail.rendered = function() {
 };
 
 Template.contestDetail.helpers({
+  fromMyContest: function() {
+    return Session.get('backURL') === '/contest/my-contest/';
+  },
   contest: function() {
     return ContestReactive.get();
   },
   contestName: function() {
     return ContestReactive.get() ? ContestReactive.get().name : 'Contest Details';
   },
-  questionContent: function(){
+  questionContent: function() {
     var ret = QuestionReactive.get() ? QuestionReactive.get().content : null;
     if (typeof MathJax !== 'undefined') {
       $('div.question').html('');
@@ -90,19 +94,25 @@ Template.contestDetail.helpers({
     }
     return listbuttons;
   },
-  answers: function(){
+  answers: function() {
     var current = QuestionReactive.get() ? QuestionReactive.get().current : null;
-    if (!current || !thisContest) return null;
+
+    if (current == null || !thisContest) return null;
+
+    if(!thisContest || !thisContest.questions[current]) return null;
 
     var answers = thisContest.questions[current].answers;
-    for (var i in answers){
+    for (var i in answers) {
       answers[i].ansClass = 'btn-default';
-      if (MyEntry && MyEntry.answers && MyEntry.answers[current] && answers[i].code == MyEntry.answers[current]){
-        if (MyEntry.answers[current] == thisContest.questions[current].correct_answer){
+      if (MyEntry && MyEntry.answers && MyEntry.answers[current] && answers[i].code == MyEntry.answers[current]) {
+        if (MyEntry.answers[current] == thisContest.questions[current].correct_answer) {
           answers[i].ansClass = 'btn-success';
         } else {
           answers[i].ansClass = 'btn-danger';
         }
+      }
+      else if (MyEntry.answers[current] && answers[i].code == thisContest.questions[current].correct_answer){
+        answers[i].ansClass = 'btn-primary';
       }
     }
     return thisContest.questions[current].answers;
@@ -111,6 +121,7 @@ Template.contestDetail.helpers({
 
 Template.contestDetail.destroyed = function() {
   Meteor.clearInterval(interval);
+  Session.set('backURL', undefined);
 };
 
 Template.contestDetail.events({
@@ -125,9 +136,18 @@ Template.contestDetail.events({
   },
   'click .back-btn': function(e) {
     e.preventDefault();
-    Router.go('/contest/math');
+    if (Session.get('backURL') === '/contest/my-contest/') {
+      Router.go('/contest/my-contest/');
+    } else {
+      Router.go('/contest/math');
+    }
+  },
+  'click .review-contest-btn': function(e) {
+    e.preventDefault();
+    Router.go('/contest/review/' + Template.instance().data.contestId);
   },
   'click .choice': function(e) {
+    $(e.target).blur();
     e.preventDefault();
     answerQ(getCurrentQuestion(), $(e.target).data('code'));
   }
@@ -207,6 +227,7 @@ function jumpQuestion(number) {
 
 function nextQuestion() {
   var number = parseInt(getCurrentQuestion()) + 1;
+  while (MyEntry.answers[number]) number ++;
   jumpQuestion(number);
 }
 
@@ -228,7 +249,8 @@ function answerQ(qnumber, ansCode) {
   MyEntry.answers[qnumber] = ansCode;
   MyEntry.status = 'inProgress';
 
-  nextQuestion();
+  jumpQuestion(getCurrentQuestion()); //mark answer
+  setTimeout(nextQuestion, 500);
 }
 
 function getCurrentQuestion() {
@@ -261,6 +283,12 @@ function restoreAnswer(MyEntry) {
 }
 
 function completeEntry(MyEntry) {
-  if (!MyEntry) return;
-  Entries.update({_id: MyEntry._id}, {status: 'complete'});
+  if (!MyEntry || MyEntry.status === 'complete') return;
+  MyEntry.status = 'complete';
+  Entries.update({_id: MyEntry._id}, MyEntry);
+  var user = Meteor.user();
+
+  //update point
+  var point = user.point + MyEntry.score;
+  Meteor.call('updateUserPoint', point, null);
 }
