@@ -268,4 +268,9 @@ function completeEntry(MyEntry) {
   if (!MyEntry || MyEntry.status === 'complete') return;
   MyEntry.status = 'complete';
   Entries.update({_id: MyEntry._id}, MyEntry);
+  var user = Meteor.user();
+
+  //update point
+  var point = user.point + MyEntry.score;
+  Meteor.call('updateUserPoint', point, null);
 }
