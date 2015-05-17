@@ -106,6 +106,9 @@ Template.contestDetail.helpers({
           answers[i].ansClass = 'btn-danger';
         }
       }
+      else if (MyEntry.answers[current] && answers[i].code == thisContest.questions[current].correct_answer){
+        answers[i].ansClass = 'btn-primary';
+      }
     }
     return thisContest.questions[current].answers;
   }
@@ -130,9 +133,9 @@ Template.contestDetail.events({
     Router.go('/contest/math');
   },
   'click .choice': function(e) {
-    e.preventDefault();
     $(e.target).blur();
-    answerQ(getCurrentQuestion(), $(e.target).data('code'), $(e.target));
+    e.preventDefault();
+    answerQ(getCurrentQuestion(), $(e.target).data('code'));
   }
 });
 
@@ -210,10 +213,11 @@ function jumpQuestion(number) {
 
 function nextQuestion() {
   var number = parseInt(getCurrentQuestion()) + 1;
+  while (MyEntry.answers[number]) number ++;
   jumpQuestion(number);
 }
 
-function answerQ(qnumber, ansCode, ans_btn) {
+function answerQ(qnumber, ansCode) {
   if (!MyEntry) return;
   if (MyEntry.answers[qnumber]) return;
   if (thisContest.questions[qnumber].correct_answer == ansCode){
