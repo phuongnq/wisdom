@@ -131,7 +131,8 @@ Template.contestDetail.events({
   },
   'click .choice': function(e) {
     e.preventDefault();
-    answerQ(getCurrentQuestion(), $(e.target).data('code'));
+    $(e.target).blur();
+    answerQ(getCurrentQuestion(), $(e.target).data('code'), $(e.target));
   }
 });
 
@@ -212,7 +213,7 @@ function nextQuestion() {
   jumpQuestion(number);
 }
 
-function answerQ(qnumber, ansCode) {
+function answerQ(qnumber, ansCode, ans_btn) {
   if (!MyEntry) return;
   if (MyEntry.answers[qnumber]) return;
   if (thisContest.questions[qnumber].correct_answer == ansCode){
@@ -230,7 +231,8 @@ function answerQ(qnumber, ansCode) {
   MyEntry.answers[qnumber] = ansCode;
   MyEntry.status = 'inProgress';
 
-  nextQuestion();
+  jumpQuestion(getCurrentQuestion()); //mark answer
+  setTimeout(nextQuestion, 500);
 }
 
 function getCurrentQuestion() {
