@@ -46,7 +46,7 @@ Template.contestDetail.created = function() {
     });
   }
 
-  Meteor.startup(function(){
+  Meteor.startup(function() {
     Tracker.autorun(function() {
       var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
       MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
@@ -59,13 +59,10 @@ Template.contestDetail.created = function() {
       }
     });
   });
-  
-}
+};
 
 Template.contestDetail.rendered = function() {
-  //restore current result
   restoreAnswer(MyEntry);
-  //jumpQuestion(1);
 
   var contestId = this.data.contestId;
   var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
@@ -139,10 +136,6 @@ Template.contestDetail.destroyed = function() {
 };
 
 Template.contestDetail.events({
-  'click .upvote': function(e) {
-    e.preventDefault();
-    //Meteor.call('upvote', this._id);
-  },
   'click .question-btn': function(e) {
     e.preventDefault();
     var qid = $(e.target).closest('.question-btn').attr('question-id');
@@ -170,26 +163,19 @@ Template.contestDetail.events({
 /**
  *
  */
-function createChart(AllEntries){
+function createChart(AllEntries) {
 	nv.addGraph(function() {
 	  chart = nv.models.discreteBarChart()
-      .x(function(d) { return d.label })    //Specify the data accessors.
+      .x(function(d) { return d.label })
       .y(function(d) { return d.value })
-      .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
-      .tooltips(false)        //Don't show tooltips
-      .showValues(true)       //...instead, show the bar value right on top of each bar.
+      .staggerLabels(true)
+      .tooltips(false)
+      .showValues(true)
       .duration(350)
       .showYAxis(false)
-      //.showXAxis(false)
-      .margin({left: 10})
-      ;
+      .margin({left: 10});
 
 	  updateChart(AllEntries);
-
-	  /*d3.select('#chart svg#c2')
-	      .datum(chartData())
-	      .call(chart);*/
-
 	  nv.utils.windowResize(chart.update);
 
 	  return chart;
@@ -201,7 +187,7 @@ function updateChart(AllEntries) {
   d3.select('#chart svg#c1')
       .datum(chartData(AllEntries))
       .call(chart);
-}
+};
 
 //Each bar represents a single discrete quantity.
 function chartData(AllEntries) {
@@ -241,7 +227,7 @@ function jumpQuestion(number) {
 
 function nextQuestion() {
   if (!thisContest) return;
-  if (answered_number == thisContest.questions.length ){
+  if (answered_number == thisContest.questions.length ) {
     completeEntry(MyEntry);
   }
   var number = parseInt(getCurrentQuestion()) + 1;
