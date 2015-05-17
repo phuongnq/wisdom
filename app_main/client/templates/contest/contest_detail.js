@@ -13,7 +13,8 @@ var updateProgressBar = function() {
   percent = percent.toFixed(2);
   if (percent > 100) {
     completeEntry(MyEntry);
-    return;
+    percent = 100;
+    //return;
   }
   if (percent < 0) {
     percent = 0;
