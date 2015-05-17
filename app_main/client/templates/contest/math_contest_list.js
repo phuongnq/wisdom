@@ -1,7 +1,3 @@
-
-Template.mathContestsList.created = function() {
-};
-
 Template.mathContestsList.helpers({
   contests: function() {
     var contests = Contests.find({subject: 'Mathematics'}).fetch();

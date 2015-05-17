@@ -1,6 +1,3 @@
-Template.contestMyContest.created = function() {
-};
-
 Template.contestMyContest.helpers({
   contests: function() {
     var myEntries = Entries.find({user_id: Meteor.userId(), status: 'complete'}).fetch();

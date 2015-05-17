@@ -15,7 +15,6 @@ var updateProgressBar = function() {
   if (percent > 100) {
     completeEntry(MyEntry);
     percent = 100;
-    //return;
   }
   if (percent < 0) {
     percent = 0;
