@@ -91,16 +91,18 @@ Template.contestDetail.helpers({
     }
     return listbuttons;
   },
-  answers: function(){
+  answers: function() {
     var current = QuestionReactive.get() ? QuestionReactive.get().current : null;
 
     if (current == null || !thisContest) return null;
 
+    if(!thisContest || !thisContest.questions[current]) return null;
+
     var answers = thisContest.questions[current].answers;
-    for (var i in answers){
+    for (var i in answers) {
       answers[i].ansClass = 'btn-default';
-      if (MyEntry && MyEntry.answers && MyEntry.answers[current] && answers[i].code == MyEntry.answers[current]){
-        if (MyEntry.answers[current] == thisContest.questions[current].correct_answer){
+      if (MyEntry && MyEntry.answers && MyEntry.answers[current] && answers[i].code == MyEntry.answers[current]) {
+        if (MyEntry.answers[current] == thisContest.questions[current].correct_answer) {
           answers[i].ansClass = 'btn-success';
         } else {
           answers[i].ansClass = 'btn-danger';
