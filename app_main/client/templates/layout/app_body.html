@@ -1,12 +1,8 @@
 <template name="appBody">
-  <div id="wrap_container" class="{{client_model}}">
-    <div id="container" class="{{ active_route }} {{noNavigatorClass}}">
+  <div id="wrap_container">
+    <div id="container" class="{{ active_route }}">
       <div id="content_container">
         {{> yield}}
-        {{> yield region='popups'}}
-      </div>
-      <div id="footer" class="{{active_route}}">
-        {{> yield region='footer'}}
       </div>
     </div>
   </div>
