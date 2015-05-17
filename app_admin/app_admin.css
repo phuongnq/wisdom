@@ -67,3 +67,17 @@ body {
 textarea {
   width: 100%;
 }
+
+.review-block {
+  padding-bottom: 10px;
+}
+
+.question {
+  font-size: 2.6rem;
+  color: #558CF2;
+  font-weight: 600;
+}
+
+.note {
+  font-style: italic;
+}
