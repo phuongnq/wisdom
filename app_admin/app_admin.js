@@ -158,13 +158,8 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-
   Meteor.publish('contests', function() {
-      return Contests.find();
-  });
-
-  Meteor.startup(function () {
-    // code to run on server at startup
+    return Contests.find();
   });
 
   Meteor.methods({

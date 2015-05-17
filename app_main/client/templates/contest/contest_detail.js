@@ -35,14 +35,14 @@ Template.contestDetail.created = function() {
   MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
   if (!MyEntry) {
     MyEntry = Entries.insert({
-      "contest_id": contestId,
-      "user_id": Meteor.userId(),
-      "user_first_name": Meteor.user().services.facebook.first_name,
-      "score": 0,
-      "question": 0,
-      "rank": 1,
-      "winning": 1,
-      "answers": []
+      'contest_id': contestId,
+      'user_id': Meteor.userId(),
+      'user_first_name': Meteor.user().services.facebook.first_name,
+      'score': 0,
+      'question': 0,
+      'rank': 1,
+      'winning': 1,
+      'answers': []
     });
   }
 
@@ -92,7 +92,7 @@ Template.contestDetail.helpers({
     var ret = QuestionReactive.get() ? QuestionReactive.get().content : null;
     if (typeof MathJax !== 'undefined') {
       $('div.question').html('');
-      MathJax.Hub.Queue(["Typeset",MathJax.Hub,ret]);
+      MathJax.Hub.Queue(['Typeset',MathJax.Hub,ret]);
     }
     return ret;
   },
@@ -201,7 +201,7 @@ function chartData(AllEntries) {
   }
   return  [
     {
-      key: "Cumulative Return",
+      key: 'Cumulative Return',
       values: values
     }
   ]

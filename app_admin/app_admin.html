@@ -6,212 +6,208 @@
   <h1>Teacher Support Tools</h1>
   <div id="content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#contest-tool" data-toggle="tab">Contest Management</a></li>
-        <li><a href="#students-tool" data-toggle="tab">Students Management</a></li>
-        <li><a href="#statistics" data-toggle="tab">Contest Statistics</a></li>
+      <li class="active"><a href="#contest-tool" data-toggle="tab">Contest Management</a></li>
+      <li><a href="#students-tool" data-toggle="tab">Students Management</a></li>
+      <li><a href="#statistics" data-toggle="tab">Contest Statistics</a></li>
     </ul>
     <div id="my-tab-content" class="tab-content">
-        <div class="tab-pane active" id="contest-tool">
-            <h1>Contest Management</h1>
-            {{> contestCalendar}}
-        </div>
-        <div class="tab-pane" id="students-tool">
-            <h1>Students Management</h1>
-            <p>Student Management Coming Soon</p>
-        </div>
+      <div class="tab-pane active" id="contest-tool">
+        <h1>Contest Management</h1>
+        {{> contestCalendar}}
+      </div>
+      <div class="tab-pane" id="students-tool">
+        <h1>Students Management</h1>
+        <p>Student Management Coming Soon</p>
+      </div>
         <div class="tab-pane" id="statistics">
-            <h1>Contest Statistics</h1>
-            <div class="alert alert-success" role="alert">
-              <p><strong>Know which knowledge your students need to practices more</strong></p>
+          <h1>Contest Statistics</h1>
+          <div class="alert alert-success" role="alert">
+            <p><strong>Know which knowledge your students need to practices more</strong></p>
+          </div>
+          <div class="statistics-content">
+            <h4>May 17th Homework</h4>
+            <ul style="list-style-type: none;padding-left: 5px;">
+              <li><span class="glyphicon glyphicon-stop" style="color: #5B9BD5"></span>  Correct</li>
+              <li><span class="glyphicon glyphicon-stop" style="color: #ED7D31"></span>  Incorrect</li>
+            </ul>
+            <div class="col-md-12 review-block">
+              <div class="col-md-12">
+                <span class="question">
+                  {{#mathjax}}
+                  <p>
+                    $\sqrt{144} = ?$
+                  </p>
+                  {{/mathjax}}
+                </span>
+              </div>
+              <div class="col-md-6">
+                <img src="/assets/images/0.png" />
+              </div>
+              <div class="col-md-6">
+                <span class="note">Fair result! The students got it well.</span>
+              </div>
             </div>
-            <div class="statistics-content">
-                <h4>May 17th Homework</h4>
-                <ul style="list-style-type: none;padding-left: 5px;">
-                  <li><span class="glyphicon glyphicon-stop" style="color: #5B9BD5"></span>  Correct</li>
-                  <li><span class="glyphicon glyphicon-stop" style="color: #ED7D31"></span>  Incorrect</li>
-                </ul>
-
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">        
-                      {{#mathjax}}
-                      <p>
-                        $\sqrt{144} = ?$
-                      </p>
-                      {{/mathjax}}
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/0.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Fair result! The students got it well.</span>
-                  </div>
-                </div>
-
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
-                    {{#mathjax}}
-                      <p>
-                      $52 \div 4 = ?$
-                      </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/1.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Bad result! Need to revise lectures about division.</span>
-                  </div>
-                </div>
-
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
-                    {{#mathjax}}
+            <div class="col-md-12 review-block">
+              <div class="col-md-12">
+                <span class="question">
+                  {{#mathjax}}
                     <p>
-                      $2^3 = ?$
+                    $52 \div 4 = ?$
                     </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/2.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Fair result! The students got it well.</span>
-                  </div>
-                </div>
+                  {{/mathjax}}
+                </span>
+              </div>
+              <div class="col-md-6">
+                <img src="/assets/images/1.png" />
+              </div>
+              <div class="col-md-6">
+                <span class="note">Bad result! Need to revise lectures about division.</span>
+              </div>
+            </div>
+            <div class="col-md-12 review-block">
+              <div class="col-md-12">
+                <span class="question">
+                  {{#mathjax}}
+                  <p>
+                    $2^3 = ?$
+                  </p>
+                  {{/mathjax}}
+                </span>
+              </div>
+              <div class="col-md-6">
+                <img src="/assets/images/2.png" />
+              </div>
+              <div class="col-md-6">
+                <span class="note">Fair result! The students got it well.</span>
+              </div>
+            </div>
 
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
+              <div class="col-md-12 review-block">
+                <div class="col-md-12">
+                  <span class="question">
                     {{#mathjax}}
                     <p>
                       ${2+4\over 1+2} = ?$
                     </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/3.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Bad result! Need to revise lectures about division.</span>
-                  </div>
+                    {{/mathjax}}
+                  </span>
                 </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/3.png" />
+                </div>
+                <div class="col-md-6">
+                  <span class="note">Bad result! Need to revise lectures about division.</span>
+                </div>
+              </div>
 
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
+              <div class="col-md-12 review-block">
+                <div class="col-md-12">
+                  <span class="question">
                     {{#mathjax}}
                     <p>
                       $\sqrt{2+10\over 1+2} = ?$
                     </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/4.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Good result! Almost all students got it.</span>
-                  </div>
+                    {{/mathjax}}
+                  </span>
                 </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/4.png" />
+                </div>
+                <div class="col-md-6">
+                  <span class="note">Good result! Almost all students got it.</span>
+                </div>
+              </div>
 
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
+              <div class="col-md-12 review-block">
+                <div class="col-md-12">
+                  <span class="question">
                     {{#mathjax}}
                     <p>
                       $\lim_{x\to 0} sin(x) = ?$
                     </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/5.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Average result. Need to revise lectures about limit.</span>
-                  </div>
+                    {{/mathjax}}
+                  </span>
                 </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/5.png" />
+                </div>
+                <div class="col-md-6">
+                  <span class="note">Average result. Need to revise lectures about limit.</span>
+                </div>
+              </div>
 
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
+              <div class="col-md-12 review-block">
+                <div class="col-md-12">
+                  <span class="question">
                     {{#mathjax}}
                     <p>
                       $\lim_{x\to 0} cos(x) = ?$
                     </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/6.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Good result! Almost all students got it.</span>
-                  </div>
+                    {{/mathjax}}
+                  </span>
                 </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/6.png" />
+                </div>
+                <div class="col-md-6">
+                  <span class="note">Good result! Almost all students got it.</span>
+                </div>
+              </div>
 
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
+              <div class="col-md-12 review-block">
+                <div class="col-md-12">
+                  <span class="question">
                     {{#mathjax}}
                     <p>
                       $\int_a^a{f(x)} = ?$
                     </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/7.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Terrible result! The students are completely lost. Consider revising lectures about integral.</span>
-                  </div>
+                    {{/mathjax}}
+                  </span>
                 </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/7.png" />
+                </div>
+                <div class="col-md-6">
+                  <span class="note">Terrible result! The students are completely lost. Consider revising lectures about integral.</span>
+                </div>
+              </div>
 
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
+              <div class="col-md-12 review-block">
+                <div class="col-md-12">
+                  <span class="question">
                     {{#mathjax}}
                     <p>
                       $x^3 - 3x^2 + 3x - 1 = 0\\ x = ?$
                     </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/8.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Terrible result! The students are completely lost. Consider revising lectures about equations.</span>
-                  </div>
+                    {{/mathjax}}
+                  </span>
                 </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/8.png" />
+                </div>
+                <div class="col-md-6">
+                  <span class="note">Terrible result! The students are completely lost. Consider revising lectures about equations.</span>
+                </div>
+              </div>
 
-                <div class="col-md-12 review-block">
-                  <div class="col-md-12">
-                    <span class="question">
+              <div class="col-md-12 review-block">
+                <div class="col-md-12">
+                  <span class="question">
                     {{#mathjax}}
                     <p>
                       $sin^2x + cos^2x = ?$
                     </p>
-                    {{/mathjax}}                    
-                    </span>
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/9.png" />
-                  </div>
-                  <div class="col-md-6">
-                    <span class="note">Good result! The students got it well.</span>
-                  </div>
+                    {{/mathjax}}
+                  </span>
                 </div>
-
-            </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/9.png" />
+                </div>
+                <div class="col-md-6">
+                  <span class="note">Good result! The students got it well.</span>
+                </div>
+              </div>
+          </div>
         </div>
     </div>
 </div>
