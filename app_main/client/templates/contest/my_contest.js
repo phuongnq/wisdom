@@ -25,6 +25,7 @@ Template.contestMyContest.events({
   },
   'click .contest-cell': function(e) {
     var contestId = $(e.target).closest('.contest-cell').attr('contest-id');
+    Session.set('backURL', '/contest/my-contest/');
     Router.go('/contest/detail/' + contestId);
   }
 });

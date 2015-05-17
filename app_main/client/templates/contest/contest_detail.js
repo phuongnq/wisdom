@@ -68,13 +68,16 @@ Template.contestDetail.rendered = function() {
 };
 
 Template.contestDetail.helpers({
+  fromMyContest: function() {
+    return Session.get('backURL') === '/contest/my-contest/';
+  },
   contest: function() {
     return ContestReactive.get();
   },
   contestName: function() {
     return ContestReactive.get() ? ContestReactive.get().name : 'Contest Details';
   },
-  questionContent: function(){
+  questionContent: function() {
     var ret = QuestionReactive.get() ? QuestionReactive.get().content : null;
     if (typeof MathJax !== 'undefined') {
       $('div.question').html('');
@@ -115,6 +118,7 @@ Template.contestDetail.helpers({
 
 Template.contestDetail.destroyed = function() {
   Meteor.clearInterval(interval);
+  Session.set('backURL', undefined);
 };
 
 Template.contestDetail.events({
@@ -129,7 +133,15 @@ Template.contestDetail.events({
   },
   'click .back-btn': function(e) {
     e.preventDefault();
-    Router.go('/contest/math');
+    if (Session.get('backURL') === '/contest/my-contest/') {
+      Router.go('/contest/my-contest/');
+    } else {
+      Router.go('/contest/math');
+    }
+  },
+  'click .review-contest-btn': function(e) {
+    e.preventDefault();
+    Router.go('/contest/review/' + Template.instance().data.contestId);
   },
   'click .choice': function(e) {
     e.preventDefault();

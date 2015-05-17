@@ -14,6 +14,15 @@ Router.route('/contest/detail/:_contestId', {
   }
 });
 
+Router.route('/contest/review/:_contestId', {
+  name: 'contestReview',
+  data: function() {
+    return {
+      contestId: this.params._contestId
+    };
+  }
+});
+
 Router.route('/contest/math', {
   name:'mathContestsList',
   onBeforeAction: function() {
