@@ -1,24 +1,24 @@
-# Requirements
-- ###For development: 
+## Requirements
+- For development: 
     - Meteor 1.1.0
-- ###For production: 
+- For production: 
     - Meteor 1.1.0
     - NodeJS 0.10.36
     - MongoDB 3.0.3
 
-# Run admin tool in development mode
+## Run admin tool in development mode
 ```
 cd app_admin
 meteor
 ```
 
-# Run main app in development mode
+## Run main app in development mode
 ```
 cd app_main
 meteor
 ```
 
-# Run main app or admin tool in production
+## Run main app or admin tool in production
 ```
 cd app_admin (app_main)
 meteor build .
@@ -32,13 +32,13 @@ cd ../../
 node main.js
 ```
 
-# Build iOS app
+## Build iOS app
 ```
 meteor add-platform ios
 meteor run ios
 ```
 
-# Build Android app
+## Build Android app
 ```
 meteor install-sdk android
 meteor add-platform android
