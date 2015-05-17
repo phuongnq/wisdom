@@ -4,6 +4,7 @@ var QuestionReactive = new ReactiveVar();
 var chart = null;
 var MyEntry;
 var interval;
+var answered_number = 0;
 
 var updateProgressBar = function() {
   if (!ContestReactive.get()) return;
@@ -48,7 +49,7 @@ Template.contestDetail.created = function() {
   Meteor.startup(function(){
     Tracker.autorun(function() {
       var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
-      //MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
+      MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
 
       if (!chart) {
         createChart(AllEntries);
@@ -239,6 +240,10 @@ function jumpQuestion(number) {
 }
 
 function nextQuestion() {
+  if (!thisContest) return;
+  if (answered_number == thisContest.questions.length ){
+    completeEntry(MyEntry);
+  }
   var number = parseInt(getCurrentQuestion()) + 1;
   while (MyEntry.answers[number]) number ++;
   jumpQuestion(number);
@@ -261,6 +266,8 @@ function answerQ(qnumber, ansCode) {
 
   MyEntry.answers[qnumber] = ansCode;
   MyEntry.status = 'inProgress';
+
+  answered_number ++;
 
   jumpQuestion(getCurrentQuestion()); //mark answer
   setTimeout(nextQuestion, 500);
@@ -291,6 +298,7 @@ function restoreAnswer(MyEntry) {
     else {
       markWrong(qnumber);
     }
+    answered_number ++;
   }
   jumpQuestion(parseInt(lastnum) + 1);
 }
