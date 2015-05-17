@@ -44,23 +44,35 @@ Template.contestDetail.created = function() {
     });
   }
 
-  Tracker.autorun(function() {
-    var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
-    MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
+  Meteor.startup(function(){
+    Tracker.autorun(function() {
+      var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
+      //MyEntry = Entries.findOne({contest_id: contestId, user_id: Meteor.userId() });
 
-    if (!chart) {
-      createChart(AllEntries);
-    }
-    else {
-      updateChart(AllEntries);
-    }
+      if (!chart) {
+        createChart(AllEntries);
+      }
+      else {
+        updateChart(AllEntries);
+      }
+    });
   });
+  
 }
 
 Template.contestDetail.rendered = function() {
   //restore current result
   restoreAnswer(MyEntry);
   //jumpQuestion(1);
+
+  var contestId = this.data.contestId;
+  var AllEntries = Entries.find({contest_id: contestId}, {sort: {score: 1}}).fetch();
+  if (!chart) {
+    createChart(AllEntries);
+  }
+  else {
+    updateChart(AllEntries);
+  }
 
   interval = Meteor.setInterval(function() {
     updateProgressBar();
